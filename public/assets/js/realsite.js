@@ -287,5 +287,30 @@ $(document).ready(function() {
         if (e.offsetX > 240) {
             $('.nav-main-wrapper').removeClass('open');
         }
-    })
+    });
+    
+     $('#country').change(function(){		
+               $.get("api/dropdown",		
+                { option: $(this).val() },		
+                function(data) {		
+                var state = $('#state');		
+                state.empty();		
+                $.each(data, function(index,element) {		
+                    state.append("<option value='"+ element.id +"'>" + element.state + "</option>");		
+                });		
+                $(state).selectpicker('refresh');		
+                });		
+            });		
+            $('#state').change(function(){		
+                $.get("api/dropdowndist",		
+                { stateoption: $(this).val() },		
+                function(data) {		
+                    var district = $('#district');		
+                    district.empty();		
+                    $.each(data, function(index,element) {		
+                        district.append("<option value='"+ element.id +"'>" + element.district + "</option>");		
+                });		
+                 $(district).selectpicker('refresh');		
+                });		
+            });
 });
