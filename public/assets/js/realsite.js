@@ -17,8 +17,6 @@ $(window).load(function() {
         isotope_properties.isotope({ filter: selector });
         return false;
     });
-    
-    
 });
 
 $(function(){
@@ -164,7 +162,7 @@ $(document).ready(function() {
     /**
      * Map
      */
-    var map = $('#map1');
+    var map = $('#map');
     var markers = new Array();
     var colors = ['orange', 'blue', 'cyan', 'pink', 'deep-purple', 'teal', 'indigo', 'green', 'light-green', 'amber', 'yellow', 'deep-orange', 'brown', 'grey'];
 
@@ -173,11 +171,14 @@ $(document).ready(function() {
         var lng = center_lng + (Math.random() * (range_level_lng + range_level_lng) - range_level_lng);
         return Array(lat, lng);
     }
-
+    var latitude = parseFloat(document.getElementById("latitude").value);
+    var longitude = parseFloat(document.getElementById("longitude").value);
+    //alert(latitude+" = "+longitude);
     for (var i=0; i < 30; i++) {
-        var position = get_gps_ranges(30.1983807, 71.4687028, 0.08, 0.60);
+        var position = get_gps_ranges(latitude, longitude, 0.08, 0.60);
         var color = colors[Math.floor(Math.random()*colors.length)];
-
+        //alert(Math.floor(Math.random()*colors.length));
+        //alert(position[0]);
         markers.push({
             latitude: position[0],
             longitude: position[1],
@@ -185,9 +186,8 @@ $(document).ready(function() {
             content: '<div class="infobox ' + color + ' "><a class="infobox-image" href=""><img src="assets/img/tmp/1-small.png" alt=""></a><div class="infobox-content"><div class="infobox-content-title"><a href="#">Madison Street 322</a></div><div class="infobox-content-price">$ 230,000</div><div class="infobox-content-body">Integer sit amet nibh erat. Maecenas accumsan nibh at porta euismod.</div></div><div class="infobox-contact"><div class="infobox-contact-title"><a href="#">John Doe</a></div><div class="infobox-contact-body">Effectivity Real Estate<br>Wardrobe Street 90210<br><i class="fa fa-phone"></i>012-123-456</div><a href="#" class="close"><i class="fa fa-close"></i></a></div></div>'
         });
     }
-
+    //alert(map.length);
     if (map.length) {
-        
         map.google_map({
             infowindow: {
                 borderBottomSpacing: 0,
@@ -196,14 +196,12 @@ $(document).ready(function() {
                 offsetX: 30,
                 offsetY: -80
             },
-            zoom: 11,
+            zoom: 10,
             transparentMarkerImage: map.data('transparent-marker-image'),
             transparentClusterImage: map.data('transparent-marker-image'),
             markers: markers,
             styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.government","elementType":"labels.text.fill","stylers":[{"color":"#b43b3b"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"hue":"#ff0000"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"lightness":"8"},{"color":"#bcbec0"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#5b5b5b"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7cb3c9"},{"visibility":"on"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#abb9c0"}]},{"featureType":"water","elementType":"labels.text","stylers":[{"color":"#fff1f1"},{"visibility":"off"}]}]
         });
-        //alert(map.center());
-       
     }
 
     /**
@@ -289,30 +287,5 @@ $(document).ready(function() {
         if (e.offsetX > 240) {
             $('.nav-main-wrapper').removeClass('open');
         }
-    });
-    
-     $('#country').change(function(){
-                $.get("api/dropdown",
-                { option: $(this).val() },
-                function(data) {
-                var state = $('#state');
-                state.empty();
-                $.each(data, function(index,element) {
-                    state.append("<option value='"+ element.id +"'>" + element.state + "</option>");
-                });
-                $(state).selectpicker('refresh');
-                });
-            });
-            $('#state').change(function(){
-                $.get("api/dropdowndist",
-                { stateoption: $(this).val() },
-                function(data) {
-                    var district = $('#district');
-                    district.empty();
-                    $.each(data, function(index,element) {
-                        district.append("<option value='"+ element.id +"'>" + element.district + "</option>");
-                });
-                 $(district).selectpicker('refresh');
-                });
-            });
+    })
 });

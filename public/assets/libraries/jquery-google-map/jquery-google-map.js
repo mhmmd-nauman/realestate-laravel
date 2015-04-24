@@ -16,18 +16,19 @@
 	var markerCluster;
 	var clustersOnMap = new Array();
 	var clusterListener;
-
+        var latitude = document.getElementById("latitude").value;
+        var longitude = document.getElementById("longitude").value;
 	var methods = {
 		init: function (options) {
 			element = $(this);
 
 			var defaults = $.extend({
 				center: {
-					latitude: 40.761077,
-					longitude: -73.983307
+					latitude: latitude,
+					longitude: longitude
 				},
 				styles: null,
-				zoom: 14,
+				zoom: 7,
 				markers: [],
 				infowindow: {
 					borderBottomSpacing: 6,

@@ -61,7 +61,7 @@ class HomeController extends BaseController {
                 $geocode = Geocoder::geocode($address);
                 // The GoogleMapsProvider will return a result
                  $data = $geocode->toArray();
-                 
+                // print_r($data);
                 $latitude = $data['latitude'];
                 $longitude = $data['longitude'];
                 
